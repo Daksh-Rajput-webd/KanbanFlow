@@ -22,7 +22,7 @@
 }
 
 .app-header__logo {
-  font-size: 22px;
+  flex-shrink: 0;
 }
 
 .app-header__search {
