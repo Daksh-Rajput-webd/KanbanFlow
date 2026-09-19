@@ -1,0 +1,22 @@
+<div class="task-card" (click)="edit.emit()">
+  <div class="task-card__top">
+    <span class="priority-dot" [class]="'priority-dot--' + task.priority" [title]="task.priority + ' priority'"></span>
+    <button class="task-card__delete" type="button" (click)="delete.emit(); $event.stopPropagation()" aria-label="Delete task">
+      &times;
+    </button>
+  </div>
+
+  <h4 class="task-card__title">{{ task.title }}</h4>
+
+  <p class="task-card__desc" *ngIf="task.description">{{ task.description }}</p>
+
+  <div class="task-card__labels" *ngIf="task.labels?.length">
+    <span class="label-chip" *ngFor="let label of task.labels">{{ label }}</span>
+  </div>
+
+  <div class="task-card__footer" *ngIf="task.dueDate">
+    <span class="due-badge" [class.due-badge--overdue]="isOverdue">
+      📅 {{ task.dueDate }}
+    </span>
+  </div>
+</div>

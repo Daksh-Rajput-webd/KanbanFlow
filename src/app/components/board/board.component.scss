@@ -1,0 +1,55 @@
+.board-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: var(--bg);
+}
+
+.board {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 18px 24px 24px;
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  &::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: 4px;
+  }
+}
+
+.column-drag-wrapper {
+  height: 100%;
+  max-height: calc(100vh - 110px);
+  display: flex;
+
+  &.cdk-drag-preview {
+    box-shadow: var(--shadow);
+  }
+}
+
+.add-column-btn {
+  min-width: 220px;
+  height: 46px;
+  border: 1.5px dashed var(--border);
+  border-radius: 12px;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 150ms ease, color 150ms ease, border-color 150ms ease, transform 150ms ease;
+
+  &:hover {
+    background: var(--surface-hover);
+    color: var(--accent);
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+}

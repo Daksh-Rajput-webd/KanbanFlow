@@ -1,0 +1,55 @@
+<div class="column" [class.column--collapsed]="isCollapsed">
+  <div class="column__header" cdkDragHandle>
+    <ng-container *ngIf="!isRenaming; else renameInput">
+      <h3 class="column__title" (dblclick)="startRename()">{{ column.title }}</h3>
+    </ng-container>
+    <ng-template #renameInput>
+      <input
+        class="column__rename-input"
+        type="text"
+        [(ngModel)]="draftTitle"
+        (blur)="confirmRename()"
+        (keyup.enter)="confirmRename()"
+        autofocus
+      />
+    </ng-template>
+
+    <span class="column__count">{{ tasks.length }}</span>
+
+    <div class="column__actions">
+      <button type="button" class="icon-btn" (click)="toggleCollapse.emit()" [title]="isCollapsed ? 'Expand' : 'Collapse'">
+        {{ isCollapsed ? '▸' : '▾' }}
+      </button>
+      <button type="button" class="icon-btn" (click)="startRename()" title="Rename column">✎</button>
+      <button type="button" class="icon-btn icon-btn--danger" (click)="deleteColumn.emit()" title="Delete column">🗑</button>
+    </div>
+  </div>
+
+  <div
+    class="column__body"
+    *ngIf="!isCollapsed"
+    cdkDropList
+    [cdkDropListData]="tasks"
+    [id]="column.id"
+    [cdkDropListConnectedTo]="connectedListIds"
+    (cdkDropListDropped)="taskDropped.emit($event)"
+  >
+    <div
+      class="task-wrapper"
+      *ngFor="let task of tasks; trackBy: trackByTaskId"
+      [@cardAnimation]
+      cdkDrag
+      [cdkDragData]="task"
+    >
+      <div class="drag-preview" *cdkDragPreview>
+        <app-task-card [task]="task"></app-task-card>
+      </div>
+      <div class="drag-placeholder" *cdkDragPlaceholder></div>
+      <app-task-card [task]="task" (edit)="editTask.emit(task.id)" (delete)="deleteTask.emit(task.id)"></app-task-card>
+    </div>
+
+    <p class="column__empty" *ngIf="!tasks.length">No tasks yet</p>
+  </div>
+
+  <button type="button" class="column__add-task" *ngIf="!isCollapsed" (click)="addTask.emit()">+ Add a task</button>
+</div>

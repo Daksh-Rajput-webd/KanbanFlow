@@ -1,0 +1,42 @@
+<div class="scrim" [@scrimAnimation] (click)="close.emit()"></div>
+
+<aside class="settings-panel" [@slideAnimation]>
+  <header class="settings-panel__header">
+    <h2>Settings</h2>
+    <button type="button" class="close-btn" (click)="close.emit()" aria-label="Close settings">&times;</button>
+  </header>
+
+  <section class="settings-section">
+    <h3>Color theme</h3>
+    <div class="theme-grid">
+      <button
+        type="button"
+        class="theme-swatch"
+        *ngFor="let theme of themes"
+        [class.theme-swatch--active]="theme.id === activeThemeId"
+        (click)="selectTheme(theme.id)"
+      >
+        <span class="theme-swatch__preview">
+          <span class="dot" [style.background]="theme.swatch[0]"></span>
+          <span class="dot" [style.background]="theme.swatch[1]"></span>
+          <span class="dot" [style.background]="theme.swatch[2]"></span>
+        </span>
+        <span class="theme-swatch__name">{{ theme.name }}</span>
+        <span class="theme-swatch__check" *ngIf="theme.id === activeThemeId">✓</span>
+      </button>
+    </div>
+  </section>
+
+  <section class="settings-section">
+    <h3>Motion</h3>
+    <label class="toggle-row">
+      <span>Enable animations</span>
+      <input type="checkbox" [checked]="motionEnabled" (change)="toggleMotion($any($event.target).checked)" />
+    </label>
+  </section>
+
+  <section class="settings-section">
+    <h3>Data</h3>
+    <button type="button" class="btn btn--ghost-danger" (click)="resetDemoData()">Reset to demo board</button>
+  </section>
+</aside>

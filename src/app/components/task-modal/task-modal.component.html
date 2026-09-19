@@ -1,0 +1,45 @@
+<div class="modal-overlay" [@overlayAnimation] (click)="cancel.emit()">
+  <div class="modal-panel" [@panelAnimation] (click)="$event.stopPropagation()">
+    <h2>{{ isEditing ? 'Edit Task' : 'New Task' }}</h2>
+
+    <form (ngSubmit)="submit()">
+      <label class="field">
+        <span>Title</span>
+        <input type="text" [(ngModel)]="title" name="title" placeholder="e.g. Design the login page" autofocus required />
+      </label>
+
+      <label class="field">
+        <span>Description</span>
+        <textarea [(ngModel)]="description" name="description" rows="3" placeholder="Add more detail..."></textarea>
+      </label>
+
+      <div class="field-row">
+        <label class="field">
+          <span>Priority</span>
+          <select [(ngModel)]="priority" name="priority">
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+          </select>
+        </label>
+
+        <label class="field">
+          <span>Due date</span>
+          <input type="date" [(ngModel)]="dueDate" name="dueDate" />
+        </label>
+      </div>
+
+      <label class="field">
+        <span>Labels (comma separated)</span>
+        <input type="text" [(ngModel)]="labelsText" name="labels" placeholder="Design, Engineering" />
+      </label>
+
+      <div class="modal-actions">
+        <button type="button" class="btn btn--ghost" *ngIf="isEditing" (click)="delete.emit()">Delete</button>
+        <div class="spacer"></div>
+        <button type="button" class="btn btn--ghost" (click)="cancel.emit()">Cancel</button>
+        <button type="submit" class="btn btn--primary">{{ isEditing ? 'Save changes' : 'Add task' }}</button>
+      </div>
+    </form>
+  </div>
+</div>

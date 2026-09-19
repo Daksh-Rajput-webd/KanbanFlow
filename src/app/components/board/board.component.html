@@ -1,0 +1,44 @@
+<div class="board-page">
+  <app-header
+    [(searchTerm)]="searchTerm"
+    (addColumn)="addColumn()"
+    (openSettings)="isSettingsOpen = true"
+  ></app-header>
+
+  <div
+    class="board"
+    cdkDropList
+    cdkDropListOrientation="horizontal"
+    id="columns-list"
+    [cdkDropListData]="columnIds"
+    (cdkDropListDropped)="onColumnDropped($event)"
+  >
+    <div class="column-drag-wrapper" *ngFor="let view of columnViews$ | async; trackBy: trackByColumnId" cdkDrag [cdkDragData]="view.column">
+      <app-column
+        [column]="view.column"
+        [tasks]="view.tasks"
+        [connectedListIds]="columnIds"
+        [isCollapsed]="collapsedColumns.has(view.column.id)"
+        (addTask)="openAddTaskModal(view.column.id)"
+        (editTask)="openEditTaskModal(view.column.id, $event)"
+        (deleteTask)="deleteTask($event)"
+        (taskDropped)="onTaskDropped($event)"
+        (renameColumn)="renameColumn(view.column.id, $event)"
+        (deleteColumn)="deleteColumn(view.column.id)"
+        (toggleCollapse)="toggleCollapse(view.column.id)"
+      ></app-column>
+    </div>
+
+    <button type="button" class="add-column-btn" (click)="addColumn()">+ Add another column</button>
+  </div>
+</div>
+
+<app-task-modal
+  *ngIf="isModalOpen"
+  [task]="editingTask"
+  (save)="saveTask($event)"
+  (cancel)="closeModal()"
+  (delete)="deleteFromModal()"
+></app-task-modal>
+
+<app-settings-panel *ngIf="isSettingsOpen" (close)="isSettingsOpen = false"></app-settings-panel>

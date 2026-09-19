@@ -1,0 +1,22 @@
+<header class="app-header">
+  <div class="app-header__brand">
+    <span class="app-header__logo">🗂️</span>
+    <h1>KanbanFlow</h1>
+  </div>
+
+  <div class="app-header__search">
+    <input
+      type="text"
+      placeholder="Search tasks or labels..."
+      [ngModel]="searchTerm"
+      (ngModelChange)="onSearchInput($event)"
+    />
+  </div>
+
+  <div class="app-header__actions">
+    <button type="button" class="btn btn--primary" (click)="addColumn.emit()">+ Column</button>
+    <button type="button" class="btn btn--icon" (click)="openSettings.emit()" title="Settings" aria-label="Open settings">
+      ⚙️
+    </button>
+  </div>
+</header>
